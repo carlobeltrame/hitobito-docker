@@ -10,6 +10,7 @@ This was tested on RubyMine 2019.2.3.
 * Create a second remote docker-compose Ruby SDK, this time for the app-test service. This one will be used to run the tests without affecting the dev database.
 * Set the path mappings for both SDKs, local path is the hitobito-docker directory on your local machine, remote path is `/app`
 * In Settings -> Version Control, register each Wagon as a repository root
+* Ctrl + Shift + A -> Spring -> turn off "Spring pre-loader"
 * Start the application using the *Development: hitobito* run configuration.
 
 ### Debugging
@@ -19,10 +20,8 @@ Since it is not possible to configure the debug port in RubyMine, it is not poss
 ## Specs
 Configure the RSpec run configuration template as follows:
 * Use custom RSpec runner script: /path/to/your/repo/hitobito-docker/.rubymine/wagon-aware-rspec.rb
-* Use pre-load server: None. *This template setting is [not respected by RubyMine](https://youtrack.jetbrains.com/issue/RUBY-16779) though, so you have to uncheck it in every run configuration manually.*
 * Ruby SDK: *Use other SDK and 'rspec' gem*: Select the SDK based on **app-test** instead of the default one based on the **app** service
 * docker-compose: docker-compose exec
-* On the bundler tab, uncheck "Run the script in context of the bundle (bundle exec)". *This template setting is [not respected by RubyMine](https://youtrack.jetbrains.com/issue/RUBY-16779) though, so you have to uncheck it in every run configuration manually.*
 
 Before running the tests, you now need to start the app-test container.
 To do this, duplicate the *Development: hitobito* run configuration and
@@ -56,14 +55,10 @@ Then run *Test: hitobito* normally (not in debug mode), set some breakpoints in 
 
 ##### Specs in wagon yield "No fixture named 'bulei' found for fixture set 'people'" or other random issues
 * ~~Set path mappings in Ruby SDK dialog~~
-* On the bundler tab, uncheck "Run the script in context of the bundle (bundle exec)" (already in the Specs instructions above)
-* Disable Spring for the run configuration (already in the Specs instructions above)
 * Use the custom rspec runner script (already in the Specs instructions above)
 * Workaround: cd into the wagon before executing the test and run without bundle exec
 
 ##### "uninitialized constant <some controller name> (NameError)" in wagon's controller tests
-* On the bundler tab, uncheck "Run the script in context of the bundle (bundle exec)" (already in the Specs instructions above)
-* Disable Spring for the run configuration (already in the Specs instructions above)
 * Use the custom rspec runner script (already in the Specs instructions above)
 * Workaround: cd into the wagon before executing the test and run without bundle exec
 
