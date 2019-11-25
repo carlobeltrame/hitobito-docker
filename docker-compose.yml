@@ -23,6 +23,7 @@ services:
     - db
     - mail
     - cache
+    ports: []
 
   test: &test
     build:
