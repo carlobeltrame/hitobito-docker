@@ -44,6 +44,8 @@ services:
     command: tail -f /dev/null
     ports:
     - "1234:1234"
+    - "58438:58438"
+    - "58439:58439"
 
   # Dependencies
 
