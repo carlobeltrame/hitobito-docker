@@ -4,13 +4,16 @@ services:
     build:
       context: .
       target: dev
+    command: [ rails, server, -b, '0.0.0.0' ]
     depends_on:
     - db
     - mail
     - cache
     env_file: .docker/app.env
+    environment:
+    - RAILS_ENV=development
     ports:
-    - "3000:3000"
+    - '3000:3000'
     tmpfs: /app/hitobito/tmp/pids
     volumes:
     - ./:/app
@@ -29,10 +32,12 @@ services:
     build:
       context: .
       target: test
+    command: rspec
     depends_on:
     - db-test
     env_file: .docker/app.env
     environment:
+      RAILS_ENVIRONMENT: test
       RAILS_DB_NAME: hitobito_test
       RAILS_DB_HOST: db-test
     tmpfs: /app/hitobito/tmp/pids
@@ -41,7 +46,7 @@ services:
 
   app-test:
     <<: *test
-    command: tail -f /dev/null
+    command: [ tail, -f, /dev/null ]
     ports:
     - "1234:1234"
     - "58438:58438"
