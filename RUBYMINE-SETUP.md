@@ -4,18 +4,20 @@ The following is a writeup of some steps that might need to be done in order to 
 This was tested on RubyMine 2019.2.3.
 
 ## Basic setup
-* Mark each wagon as Ruby module root (via context menu). This will create some run configurations, we will only need the *Development: hitobito* one.
+* Mark each wagon as Ruby project root (via context menu). This will create some run configurations, we will only need the *Development: hitobito* one.
 * In Settings -> Build, Execution, Deployment -> Docker, set up RubyMine's connection to Docker
+* Before you can add the Docker containers as Ruby SDK, run `docker-compose up app` in the Terminal
 * Create a remote docker-compose Ruby SDK for the app service and set it as default SDK for all wagons
 * Create a second remote docker-compose Ruby SDK, this time for the app-test service. This one will be used to run the tests without affecting the dev database.
 * Set the path mappings for both SDKs, local path is the hitobito-docker directory on your local machine, remote path is `/app`
-* In Settings -> Version Control, register each Wagon as a repository root
-* Ctrl + Shift + A -> Spring -> turn off "Spring pre-loader"
+* Now stop the containers that you ran in the Terminal, with Ctrl+C and `docker-compose down --volumes`
+* In Settings -> Version Control, register each Wagon as a Git repository root
+* Ctrl + Shift + A -> Spring -> turn off everything that has to do with Spring
 * Start the application using the *Development: hitobito* run configuration.
 
 ### Debugging
 Run the *Development: hitobito* run configuration in debug mode, set some breakpoints and debug away.
-Since it is not possible to configure the debug port in RubyMine, it is not possible to run any tests or specs while the main application is in debug mode.
+> Note: Since it is not possible to configure the debug port in RubyMine, it is not possible to run any tests or specs while the main application is in debug mode.
 
 ## Specs
 Configure the RSpec run configuration template as follows:
@@ -37,7 +39,7 @@ Now you can start *Test: hitobito*.
 Once the migrations are done, you are ready to run tests (but keep in mind that you have to manually adjust the run configurations, due to the RubyMine bug mentioned above).
 
 ### Debugging
-To make debugging tests work, make sure to disable "Spring for Debug" in Settings -> Debugger.
+To make debugging tests work, make sure to check "Disable Spring for debug" in Settings -> Build, Execution, Deployment -> Debugger.
 Then run *Test: hitobito* normally (not in debug mode), set some breakpoints in tests, and run the tests in debug mode.
 
 ## Troubleshooting
@@ -76,3 +78,15 @@ Local path is the hitobito-docker directory on your local machine, remote path i
 ##### "Process finished with exit code 137 (interrupted by signal 9: SIGKILL)" when trying to run tests
 Probably the app-test service is not running.
 Clean up by running `docker-compose rm -fsv app-test db-test`, and then run (or debug if you want to debug tests) the *Test: hitobito* run configuration (see Specs instructions above).
+
+##### Bundler::GemNotFound: Could not find minitest-5.11.3 in any of the sources
+Rebuild the container so that bundle install runs again:
+```bash
+docker-compose down --volumes
+docker-compose build --no-cache app
+```
+
+##### "/usr/local/bin/ruby: No such file or directory -- /usr/local/bundle/gems/ruby-debug-ide-0.7.1.beta2/bin/rdebug-ide (LoadError)" when trying to run the app in debug mode
+* ~~Rebuild the container so that bundle install runs again~~
+* Run the app in normal mode (non-debug)
+* Go to Settings -> Languages & Frameworks -> Ruby SDK and Gems and click the small button above the rightmost list for "Synchronize gems and RubyMine helper files"

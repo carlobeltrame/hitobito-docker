@@ -11,7 +11,7 @@ RUN ln -s /app/.docker/entrypoint /bin/entrypoint; \
 WORKDIR /app/hitobito
 COPY hitobito/Wagonfile.ci ./Wagonfile
 RUN gem install --prerelease ruby-debug-ide && gem install debase
-COPY .docker/ruby-debug-ide-patch.rb /usr/local/bundle/gems/ruby-debug-ide-0.7.1.beta1/lib/ruby-debug-ide.rb
+COPY .docker/ruby-debug-ide-patch.rb /usr/local/bundle/gems/ruby-debug-ide-0.7.1.beta3/lib/ruby-debug-ide.rb
 COPY hitobito/Gemfile hitobito/Gemfile.lock ./
 RUN bundle install
 
