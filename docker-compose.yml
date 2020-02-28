@@ -30,7 +30,18 @@ services:
     - db
     - mail
     - cache
-    ports: []
+
+  ruby:
+    build:
+      context: .
+      target: dev
+    env_file: .docker/app.env
+    entrypoint: []
+    environment:
+      - RAILS_ENV=development
+    volumes:
+      - ./:/app
+      - seed:/seed
 
   test: &test
     build:
