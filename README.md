@@ -1,3 +1,9 @@
+# No longer maintained
+This repository is no longer actively maintained. Please use the official hitobito Docker setup repository instead:
+
+https://github.com/hitobito/development
+
+
 # Hitobito
 
 [_Hitobito_](https://github.com/hitobito/hitobito) is an open source web application to manage complex group hierarchies with members, events and a lot more.
