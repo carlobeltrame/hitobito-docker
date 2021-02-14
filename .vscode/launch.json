@@ -1,0 +1,75 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Rails server",
+			"type": "Ruby",
+			"request": "launch",
+			"cwd": "/app/hitobito",
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
+			"program": "/usr/local/bundle/bin/rails",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
+			"args": [
+				"server",
+				"-b",
+				"0.0.0.0"
+			],
+			"showDebuggerOutput": true,
+		},
+		{
+			"name": "Run RSpec - all",
+			"type": "Ruby",
+			"request": "launch",
+			"cwd": "/app/hitobito",
+			"program": "/usr/local/bundle/bin/rspec",
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
+			"showDebuggerOutput": true,
+			"env": {
+				"RAILS_DB_NAME": "hitobito_test",
+				"RAILS_DB_HOST": "db-test",
+				"RAILS_ENV": "test",
+			}
+		},
+		{
+			"name": "Debug RSpec - open spec file",
+			"type": "Ruby",
+			"request": "launch",
+			"cwd": "/app/hitobito",
+			"program": "/usr/local/bundle/bin/rspec",
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
+			"showDebuggerOutput": true,
+			"args": [
+				"${file}"
+			],
+			"env": {
+				"RAILS_DB_NAME": "hitobito_test",
+				"RAILS_DB_HOST": "db-test",
+				"RAILS_ENV": "test",
+			}
+		},
+		{
+			"name": "Debug RSpec - open spec file on a certain line",
+			"type": "Ruby",
+			"request": "launch",
+			"cwd": "/app/hitobito",
+			"program": "/usr/local/bundle/bin/rspec",
+			"useBundler": true,
+			"pathToBundler": "/usr/local/bin/bundle",
+			"pathToRDebugIDE": "/usr/local/bundle/gems/ruby-debug-ide-0.7.0/bin/rdebug-ide",
+			"showDebuggerOutput": true,
+			"args": [
+				"${file}:${lineNumber}"
+			],
+			"env": {
+				"RAILS_DB_NAME": "hitobito_test",
+				"RAILS_DB_HOST": "db-test",
+				"RAILS_ENV": "test",
+			}
+		}
+	]
+}

@@ -159,4 +159,18 @@ Here follows a dicussion about why certain things were done a certain way in thi
 
 The current directy is mounted by _docker-compose_ into the running containers.
 The main advantage is a much simpler workflow, because it allows you to change your 'local' files and they are immediately picked up by the commands in the server.
-I.e. you don't have to re-build the Docker images after every code change.
+I.e. you don't have to re-build the Docker images after every time.
+
+## VS Code
+
+The general idea is to have a VS Code that runs in a container, which has the correct dependencies. Therefore you don't rely on docker entrypoints but rather just run the regular commands as specified in an undockerized setup.
+
+To open the project in vs code with plug and play, you need [Docker](https://docs.docker.com/install/), the [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) Plugin and the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).  
+When you open this project in VS Code, it should prompt you to reopen in container. Do that. It will now install some stuff in the container, which might take some time.  
+First thing you should do is to open a terminal and run the following commands. Caution, they take a long time again, so grab a coffe:
+```sh
+cd hitobito
+bundle exec rake db:migrate wagon:migrate
+bundle exec rake db:seed wagon:seed && date > /seed/done # /seed/done is used to ensure interoperateability with the docker entrypoint…
+```  
+You should be able to easily open and run it with the [integrated debugger](https://code.visualstudio.com/docs/editor/debugging).
